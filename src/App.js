@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
-
+import {useState} from 'react'
 function App() {
+  const [toDo, setToDo] = useState('')
+  const [toDoList, setToDoList] = useState([])
+
+  const inputOnChange = event => {
+    setToDo(event.target.value);
+  }
+
+  const onSubmit = event => {
+    event.preventDefault();
+    setToDoList((currentArray) => [...currentArray, toDo]);
+    setToDo('');
+  }
+
+  const deleteToDo = event => {
+    const deleteValue = event.target.previousElementSibling.innerText;
+    setToDoList(toDoList.filter((item) => item !== deleteValue));
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h1>To Do List</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          value={toDo}
+          placeholder='To Do 목록을 적어주세요'
+          onChange={inputOnChange}
+        />
+      </form>
+      <ul>
+        {toDoList.map((toDoItem, toDoIndex) => (
+          <li key={toDoIndex}>
+            <span>{toDoItem}</span>
+            <span onClick={deleteToDo}>❌</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
