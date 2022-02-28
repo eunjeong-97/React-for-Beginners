@@ -1,43 +1,27 @@
-import {useState} from 'react'
-function App() {
-  const [toDo, setToDo] = useState('')
-  const [toDoList, setToDoList] = useState([])
+import React from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Home from './pages/Home.js'
+import ToDoList from './pages/ToDoList'
+import CoinTracker from './pages/CoinTracker'
+import Movie from './pages/Movie'
+import NotFound from './pages/NotFound'
+import Nav from './components/Nav'
+import Detail from './components/Detail'
 
-  const inputOnChange = event => {
-    setToDo(event.target.value);
-  }
-
-  const onSubmit = event => {
-    event.preventDefault();
-    setToDoList((currentArray) => [...currentArray, toDo]);
-    setToDo('');
-  }
-
-  const deleteToDo = event => {
-    const deleteValue = event.target.previousElementSibling.innerText;
-    setToDoList(toDoList.filter((item) => item !== deleteValue));
-  }
-  
+const App = () => {
   return (
-    <div className='App'>
-      <h1>To Do List</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          value={toDo}
-          placeholder='To Do 목록을 적어주세요'
-          onChange={inputOnChange}
-        />
-      </form>
-      <ul>
-        {toDoList.map((toDoItem, toDoIndex) => (
-          <li key={toDoIndex}>
-            <span>{toDoItem}</span>
-            <span onClick={deleteToDo}>❌</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    <Router basename='/react-for-beginners'>
+      <Nav />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/todolist' element={<ToDoList />} />
+        <Route path='/coin' element={<CoinTracker />} />
+        <Route path='/movie' element={<Movie />} />
+        <Route path='/movie/:id' element={<Detail />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </Router>
+  )
 }
 
-export default App;
+export default App
