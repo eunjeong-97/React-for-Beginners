@@ -13,7 +13,7 @@ const CoinTracker = () => {
   const [calculateInput, setCalculateInput] = useState(0)
 
   const getCoinData = async () => {
-    const json = await await axios('https://api.coinpaprika.com/v1/tickers')
+    const json = await axios('https://api.coinpaprika.com/v1/tickers')
     setCoinList(json.data)
   }
 
